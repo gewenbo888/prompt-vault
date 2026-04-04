@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Vault — 500+ Ready-to-Use AI Prompts</title>
+<meta name="description" content="500+ copy-paste AI prompts for ChatGPT, Claude, Midjourney, and more. Searchable, categorized, bilingual. Free and open-source. AI提示词宝库。">
+<meta property="og:title" content="Prompt Vault — 500+ AI Prompts">
+<meta property="og:description" content="Copy-paste prompts for ChatGPT, Claude, Midjourney. Searchable, categorized, bilingual.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%2318181b'/><text x='32' y='42' text-anchor='middle' font-size='28'>⚡</text></svg>">
+<script defer src="https://analytics-dashboard-two-blue.vercel.app/tracker.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090b;--bg2:#18181b;--bg3:#27272a;
+  --text:#e4e4e7;--dim:#71717a;--faint:#27272a;
+  --accent:#f97316;--accent-bg:rgba(249,115,22,.08);
+  --green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--rose:#f43f5e;--amber:#eab308;--teal:#14b8a6;
+  --rule:rgba(228,228,231,.05);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.2);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.cn{font-family:'Noto Sans SC',sans-serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+
+/* ═══ HEADER ═══ */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(9,9,11,.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--rule);padding:12px 24px;
+}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.logo{font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.logo span{font-size:1.1rem;}
+.search-box{
+  flex:1;min-width:200px;position:relative;
+}
+.search-box input{
+  width:100%;padding:9px 14px 9px 36px;border-radius:10px;
+  background:var(--bg2);border:1px solid var(--faint);
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;
+  outline:none;transition:border-color .2s;
+}
+.search-box input:focus{border-color:var(--accent);}
+.search-box input::placeholder{color:var(--dim);}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:.85rem;}
+.header-count{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim);flex-shrink:0;}
+
+/* ═══ LAYOUT ═══ */
+.shell{max-width:1100px;margin:0 auto;display:flex;gap:0;min-height:100vh;}
+.sidebar{
+  width:200px;flex-shrink:0;padding:20px 16px;
+  border-right:1px solid var(--rule);
+  position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;
+}
+@media(max-width:800px){.sidebar{display:none;}.main{margin-left:0!important;}}
+.main{flex:1;padding:20px 24px 60px;}
+
+/* ═══ SIDEBAR ═══ */
+.sb-title{font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;padding:0 8px;}
+.sb-cat{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 10px;border-radius:8px;cursor:pointer;
+  font-size:.78rem;color:var(--dim);transition:all .15s;margin-bottom:2px;
+}
+.sb-cat:hover{background:rgba(255,255,255,.04);color:var(--text);}
+.sb-cat.active{background:var(--accent-bg);color:var(--accent);}
+.sb-cat .sb-icon{font-size:.9rem;width:20px;text-align:center;}
+.sb-cat .sb-count{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.6rem;opacity:.5;}
+
+/* ═══ CATEGORY PILLS (mobile) ═══ */
+.cat-pills{display:none;gap:6px;padding:12px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;}
+@media(max-width:800px){.cat-pills{display:flex;}}
+.cat-pill{
+  font-size:.68rem;font-weight:500;padding:6px 14px;border-radius:100px;
+  white-space:nowrap;cursor:pointer;flex-shrink:0;
+  background:var(--bg2);border:1px solid var(--faint);color:var(--dim);transition:all .15s;
+}
+.cat-pill:hover,.cat-pill.active{background:var(--accent-bg);border-color:rgba(249,115,22,.2);color:var(--accent);}
+
+/* ═══ PROMPT CARDS ═══ */
+.prompts{display:flex;flex-direction:column;gap:12px;}
+.prompt-card{
+  background:var(--bg2);border:1px solid var(--faint);border-radius:12px;
+  padding:18px 20px;transition:border-color .2s;position:relative;
+}
+.prompt-card:hover{border-color:rgba(255,255,255,.08);}
+.prompt-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;}
+.prompt-title{font-weight:600;font-size:.9rem;}
+.prompt-tags{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0;}
+.prompt-tag{
+  font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:500;
+  padding:2px 8px;border-radius:4px;letter-spacing:.04em;
+}
+.tag-chatgpt{background:rgba(34,197,94,.08);color:#22c55e;}
+.tag-claude{background:rgba(245,158,11,.08);color:#eab308;}
+.tag-midjourney{background:rgba(168,85,247,.08);color:#a855f7;}
+.tag-coding{background:rgba(59,130,246,.08);color:#3b82f6;}
+.tag-writing{background:rgba(244,63,94,.08);color:#f43f5e;}
+.tag-all{background:rgba(255,255,255,.04);color:var(--dim);}
+
+.prompt-body{
+  font-family:'JetBrains Mono',monospace;font-size:.78rem;
+  background:var(--bg);border:1px solid var(--faint);border-radius:8px;
+  padding:14px 16px;color:rgba(228,228,231,.8);line-height:1.7;
+  position:relative;white-space:pre-wrap;word-break:break-word;
+}
+.prompt-body .var{color:var(--accent);font-weight:500;}
+.prompt-cn{font-family:'Noto Sans SC',sans-serif;font-size:.75rem;color:var(--dim);margin-top:8px;line-height:1.6;}
+.prompt-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;}
+.prompt-cat{font-size:.65rem;color:var(--dim);}
+.copy-btn{
+  font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:600;
+  padding:6px 16px;border-radius:8px;border:none;cursor:pointer;
+  background:var(--accent-bg);color:var(--accent);border:1px solid rgba(249,115,22,.15);
+  transition:all .15s;
+}
+.copy-btn:hover{background:rgba(249,115,22,.15);}
+.copy-btn.copied{background:rgba(34,197,94,.1);color:var(--green);border-color:rgba(34,197,94,.15);}
+
+/* ═══ EMPTY ═══ */
+.empty{text-align:center;padding:60px 20px;color:var(--dim);}
+.empty .icon{font-size:2rem;margin-bottom:12px;opacity:.3;}
+
+/* ═══ FOOTER ═══ */
+footer{text-align:center;padding:40px 24px;border-top:1px solid var(--rule);}
+footer p{font-size:.7rem;color:var(--dim);}
+.tip-line{
+  margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:.72rem;
+  color:var(--dim);cursor:pointer;transition:color .2s;
+}
+.tip-line:hover{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span>&#9889;</span> Prompt Vault</div>
+    <div class="search-box">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="searchInput" placeholder="Search prompts... 搜索提示词...">
+    </div>
+    <div class="header-count" id="resultCount">Loading...</div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main">
+    <div class="cat-pills" id="catPills"></div>
+    <div class="prompts" id="promptList"></div>
+  </main>
+</div>
+
+<footer>
+  <p>Prompt Vault &mdash; AI提示词宝库 &middot; Free &amp; Open Source</p>
+  <p style="margin-top:4px;"><a href="https://github.com/gewenbo888/prompt-vault" target="_blank" style="color:var(--dim);font-size:.65rem;">GitHub</a> &middot; <a href="https://gewenbo-hub.vercel.app" target="_blank" style="color:var(--dim);font-size:.65rem;">More Projects</a></p>
+  <div class="tip-line" onclick="navigator.clipboard.writeText('gewenbo.eth').then(()=>{this.textContent='Copied gewenbo.eth!';setTimeout(()=>this.textContent='Tip: gewenbo.eth ❤',1500)})">Tip: gewenbo.eth &#10084;</div>
+</footer>
+
+<script>
+// ═══ PROMPT DATABASE ═══
+const PROMPTS = [
+// ── WRITING ──
+{cat:"writing",title:"Blog Post Writer",tags:["chatgpt","claude"],
+prompt:`You are an expert blog writer. Write a comprehensive blog post about [TOPIC].\n\nRequirements:\n- Engaging hook in the first paragraph\n- 3-5 subheadings with H2 tags\n- Include practical examples and actionable tips\n- Conversational but authoritative tone\n- 800-1200 words\n- End with a compelling call-to-action`,
+cn:"你是一位专业博客作者。写一篇关于[主题]的全面博客文章。要求：引人入胜的开头、3-5个小标题、实际案例和可操作建议、对话式但权威的语气、800-1200字。"},
+
+{cat:"writing",title:"Email Rewriter (Professional)",tags:["chatgpt","claude"],
+prompt:`Rewrite this email to be more professional, concise, and clear. Keep the core message but improve the tone, fix grammar, and make it under 150 words:\n\n[PASTE YOUR EMAIL HERE]`,
+cn:"将这封邮件改写得更专业、简洁、清晰。保留核心信息但改善语气、修正语法，控制在150字以内。"},
+
+{cat:"writing",title:"LinkedIn Post Generator",tags:["chatgpt","claude"],
+prompt:`Write a LinkedIn post about [TOPIC] that:\n- Opens with a bold first line (hook)\n- Uses short paragraphs (1-2 sentences each)\n- Includes a personal anecdote or insight\n- Has 3-5 key takeaways\n- Ends with a question to drive engagement\n- Uses relevant emojis sparingly\n- Total length: 150-200 words`,
+cn:"写一篇关于[主题]的LinkedIn帖子：大胆的开头、短段落、个人见解、3-5个要点、以提问结尾驱动互动。"},
+
+{cat:"writing",title:"Product Description",tags:["chatgpt","claude"],
+prompt:`Write a compelling product description for [PRODUCT NAME].\n\nProduct details: [DETAILS]\nTarget audience: [AUDIENCE]\n\nFormat:\n- Headline (under 10 words, benefit-focused)\n- 2-sentence hook highlighting the main benefit\n- 3 bullet points with features → benefits\n- Social proof line ("Trusted by..." or "Join...")\n- Clear call-to-action`,
+cn:"为[产品名称]写一段引人注目的产品描述。包括：标题、利益点钩子、3个功能→利益要点、社会证明、行动号召。"},
+
+{cat:"writing",title:"Twitter/X Thread Creator",tags:["chatgpt","claude"],
+prompt:`Create a Twitter/X thread about [TOPIC] with exactly 7 tweets.\n\nTweet 1: Hook — bold statement or surprising fact (max 240 chars)\nTweet 2-6: Key points — one insight per tweet, with examples\nTweet 7: CTA — summary + ask readers to retweet/follow\n\nRules:\n- Each tweet must stand alone (make sense without context)\n- Use numbers and data when possible\n- No hashtags (they reduce reach)\n- Under 280 characters each`,
+cn:"创建一个关于[主题]的Twitter线程，恰好7条推文。第1条：钩子。第2-6条：每条一个关键见解。第7条：总结+行动号召。"},
+
+{cat:"writing",title:"Resume Bullet Point Optimizer",tags:["chatgpt","claude"],
+prompt:`Rewrite these resume bullet points using the STAR method (Situation, Task, Action, Result). Add quantifiable metrics where possible. Use strong action verbs. Keep each under 2 lines:\n\n[PASTE YOUR BULLET POINTS]`,
+cn:"使用STAR方法改写这些简历要点。添加可量化指标。使用强动词。每条不超过2行。"},
+
+// ── CODING ──
+{cat:"coding",title:"Code Review Expert",tags:["claude","chatgpt"],
+prompt:`Review this code for:\n1. Bugs and edge cases\n2. Security vulnerabilities (OWASP top 10)\n3. Performance issues\n4. Readability and naming\n5. Missing error handling\n\nFor each issue found, provide:\n- Severity (critical/high/medium/low)\n- Line reference\n- Explanation of why it's a problem\n- Suggested fix with code\n\n\`\`\`\n[PASTE CODE HERE]\n\`\`\``,
+cn:"审查代码：查找bug和边缘情况、安全漏洞、性能问题、可读性问题、缺失的错误处理。对每个问题提供严重级别、行号、解释和建议修复。"},
+
+{cat:"coding",title:"Explain Code Like I'm 5",tags:["chatgpt","claude"],
+prompt:`Explain what this code does in plain English. Assume I'm a beginner who has never programmed before.\n\n1. First give a one-sentence summary\n2. Then walk through it line by line\n3. Use analogies from everyday life\n4. Highlight the 2-3 most important concepts\n\n\`\`\`\n[PASTE CODE HERE]\n\`\`\``,
+cn:"用通俗语言解释代码。假设我是从未编程的初学者。先给一句总结，然后逐行讲解，使用日常生活类比。"},
+
+{cat:"coding",title:"Convert to Another Language",tags:["claude","chatgpt"],
+prompt:`Convert this [SOURCE LANGUAGE] code to [TARGET LANGUAGE].\n\nRequirements:\n- Use idiomatic patterns in the target language\n- Preserve all functionality and edge case handling\n- Add brief comments where the translation isn't obvious\n- Note any library/framework differences\n\n\`\`\`\n[PASTE CODE]\n\`\`\``,
+cn:"将这段[源语言]代码转换为[目标语言]。使用目标语言的惯用模式。保留所有功能。添加必要注释。"},
+
+{cat:"coding",title:"Write Unit Tests",tags:["claude","chatgpt"],
+prompt:`Write comprehensive unit tests for this function/class.\n\nRequirements:\n- Test happy path, edge cases, and error cases\n- Use [FRAMEWORK: jest/pytest/etc]\n- Include descriptive test names\n- Add comments explaining what each test verifies\n- Aim for >90% branch coverage\n\n\`\`\`\n[PASTE CODE]\n\`\`\``,
+cn:"为这个函数/类编写全面的单元测试。测试正常路径、边缘情况和错误情况。使用[框架]。目标>90%分支覆盖。"},
+
+{cat:"coding",title:"Debug This Error",tags:["chatgpt","claude"],
+prompt:`I'm getting this error:\n\n\`\`\`\n[PASTE ERROR MESSAGE]\n\`\`\`\n\nHere's the relevant code:\n\n\`\`\`\n[PASTE CODE]\n\`\`\`\n\nEnvironment: [OS, language version, framework version]\n\nPlease:\n1. Explain what's causing the error\n2. Provide the fix with code\n3. Explain why the fix works\n4. Suggest how to prevent this in the future`,
+cn:"我遇到了这个错误。请解释原因、提供修复代码、解释为什么有效、建议如何预防。"},
+
+{cat:"coding",title:"SQL Query Builder",tags:["chatgpt","claude"],
+prompt:`Write a SQL query for:\n\n[DESCRIBE WHAT YOU NEED IN PLAIN ENGLISH]\n\nDatabase: [MySQL/PostgreSQL/SQLite]\nRelevant tables and columns:\n[DESCRIBE YOUR SCHEMA]\n\nRequirements:\n- Optimize for performance\n- Add comments explaining complex joins or subqueries\n- Include an index suggestion if the query would benefit from one`,
+cn:"编写SQL查询。用通俗语言描述需求。提供表结构。要求优化性能并添加注释。"},
+
+// ── IMAGE ──
+{cat:"image",title:"Photorealistic Portrait",tags:["midjourney"],
+prompt:`Portrait photograph of [SUBJECT DESCRIPTION], shot on Canon EOS R5 with 85mm f/1.4 lens, natural window lighting from the left, shallow depth of field, film grain, editorial style, 8k resolution --ar 3:4 --v 7 --style raw`,
+cn:"人像照片：[主题描述]，佳能EOS R5拍摄，85mm f/1.4镜头，自然窗光，浅景深，胶片颗粒感，编辑风格，8K分辨率。"},
+
+{cat:"image",title:"Logo Design Concept",tags:["midjourney"],
+prompt:`Minimal modern logo for [BRAND NAME], [INDUSTRY]. Clean vector design, geometric, single color on white background, professional, scalable, timeless. Style of Paul Rand and Massimo Vignelli --ar 1:1 --v 7`,
+cn:"[品牌名称]的极简现代Logo，[行业]。干净的矢量设计，几何形状，单色白底，专业，可缩放，经典。"},
+
+{cat:"image",title:"Illustration Style",tags:["midjourney"],
+prompt:`[SCENE DESCRIPTION] in the style of Studio Ghibli, soft watercolor palette, gentle lighting, whimsical atmosphere, detailed environment, subtle texture, warm tones, nostalgic feeling --ar 16:9 --v 7`,
+cn:"[场景描述]，吉卜力工作室风格，柔和水彩色调，温柔光线，异想天开的氛围，细致环境，微妙纹理，温暖色调。"},
+
+{cat:"image",title:"Product Photography",tags:["midjourney"],
+prompt:`Professional product photography of [PRODUCT], floating in space, dramatic studio lighting, dark background with subtle gradient, reflection on surface below, ultra detailed, commercial quality, 8k --ar 4:5 --v 7`,
+cn:"[产品]的专业产品摄影，悬浮在空中，戏剧性影棚灯光，深色背景微妙渐变，表面反射，超详细，商业品质。"},
+
+{cat:"image",title:"Architecture Visualization",tags:["midjourney"],
+prompt:`Architectural visualization of [BUILDING TYPE], modern minimalist design, concrete and glass, surrounded by [ENVIRONMENT], golden hour lighting, photorealistic, Dezeen magazine style, award-winning design --ar 16:9 --v 7 --style raw`,
+cn:"[建筑类型]的建筑可视化，现代极简设计，混凝土与玻璃，[环境]环绕，黄金时刻光线，逼真，Dezeen杂志风格。"},
+
+// ── BUSINESS ──
+{cat:"business",title:"SWOT Analysis",tags:["chatgpt","claude"],
+prompt:`Perform a comprehensive SWOT analysis for [COMPANY/PRODUCT/IDEA].\n\nContext: [BRIEF DESCRIPTION]\nIndustry: [INDUSTRY]\nTarget market: [MARKET]\n\nFor each quadrant (Strengths, Weaknesses, Opportunities, Threats):\n- List 4-6 items\n- Prioritize by impact\n- Include brief explanation for each\n- End with 3 strategic recommendations based on the analysis`,
+cn:"对[公司/产品/想法]进行全面的SWOT分析。每个象限列出4-6项，按影响排序，附简要说明，最后给出3条战略建议。"},
+
+{cat:"business",title:"Pitch Deck Script",tags:["chatgpt","claude"],
+prompt:`Write a 10-slide pitch deck script for [STARTUP/PRODUCT].\n\nSlides:\n1. Hook (1 sentence that makes investors lean in)\n2. Problem (pain point with data)\n3. Solution (your product in 1 sentence)\n4. Demo/How it works (3 steps)\n5. Market size (TAM/SAM/SOM)\n6. Business model (how you make money)\n7. Traction (metrics, growth, testimonials)\n8. Competition (2x2 matrix positioning)\n9. Team (why you'll win)\n10. Ask (funding amount + use of funds)\n\nFor each slide, provide: headline + 3-4 bullet points + speaker notes`,
+cn:"为[创业/产品]编写10页pitch deck脚本。包括：钩子、问题、解决方案、演示、市场规模、商业模式、牵引力、竞争、团队、融资请求。"},
+
+{cat:"business",title:"Cold Email Template",tags:["chatgpt","claude"],
+prompt:`Write a cold email to [RECIPIENT ROLE] at [COMPANY TYPE] about [YOUR PRODUCT/SERVICE].\n\nRules:\n- Subject line under 6 words (curiosity-driven, no clickbait)\n- First line: personalized observation about them (not "I hope this finds you well")\n- One clear value proposition in 1-2 sentences\n- Social proof (1 sentence)\n- Soft CTA (question, not demand)\n- Total length: under 100 words\n- P.S. line with a relevant stat or insight`,
+cn:"给[收件人角色]写一封冷邮件。标题少于6字。第一句个人化观察。一句清晰价值主张。社会证明。软性行动号召。总共少于100字。"},
+
+// ── LEARNING ──
+{cat:"learning",title:"Feynman Technique Explainer",tags:["chatgpt","claude"],
+prompt:`Explain [COMPLEX TOPIC] using the Feynman Technique:\n\n1. Explain it like I'm 12 years old (no jargon)\n2. Identify the gaps — what parts are hard to explain simply?\n3. Go back and simplify those parts with analogies\n4. Create a one-paragraph "elevator pitch" summary\n5. Give me 3 questions to test if I truly understand it`,
+cn:"使用费曼技巧解释[复杂主题]：像对12岁孩子解释、识别难以简化的部分、用类比简化、一段总结、3个测试理解的问题。"},
+
+{cat:"learning",title:"Flashcard Generator",tags:["chatgpt","claude"],
+prompt:`Create 20 spaced-repetition flashcards for [TOPIC/CHAPTER/CONCEPT].\n\nFormat each card as:\nQ: [Question — specific, not vague]\nA: [Answer — concise, 1-3 sentences max]\n\nRules:\n- Mix recall questions, application questions, and comparison questions\n- Don't just test definitions — test understanding\n- Order from fundamental to advanced\n- Include 3 "trick questions" that test common misconceptions`,
+cn:"为[主题]创建20张间隔重复闪卡。格式：Q/A。混合回忆、应用和比较问题。不只测试定义，测试理解。从基础到高级。包含3个测试常见误解的问题。"},
+
+{cat:"learning",title:"Book Summary + Action Items",tags:["chatgpt","claude"],
+prompt:`Summarize the book "[BOOK TITLE]" by [AUTHOR]:\n\n1. Core thesis in 1 sentence\n2. Top 5 key ideas (2-3 sentences each)\n3. 3 things I should do differently after reading this\n4. Best quotes (top 5)\n5. Who should read this (and who shouldn't)\n6. If I only remember one thing from this book, it should be: ___`,
+cn:"总结[书名]：1句核心论点、5个关键想法、3个行动建议、5句最佳引言、谁应该读（谁不应该）、如果只记一件事应该是什么。"},
+
+// ── PRODUCTIVITY ──
+{cat:"productivity",title:"Meeting Notes → Action Items",tags:["chatgpt","claude"],
+prompt:`Convert these messy meeting notes into a structured summary:\n\n[PASTE MEETING NOTES]\n\nFormat:\n## Meeting Summary (2-3 sentences)\n## Key Decisions Made\n- [Decision] — decided by [who]\n## Action Items\n- [ ] [Task] — Owner: [name] — Due: [date]\n## Open Questions\n- [Question] — needs answer from [who]\n## Next Steps`,
+cn:"将这些混乱的会议记录转化为结构化摘要：会议摘要、关键决定、行动项（负责人+截止日期）、待解决问题、下一步。"},
+
+{cat:"productivity",title:"Weekly Plan Generator",tags:["chatgpt","claude"],
+prompt:`Help me plan my week. Here are my goals and tasks:\n\n[LIST YOUR TASKS AND GOALS]\n\nCreate a day-by-day plan (Mon-Fri) that:\n- Groups similar tasks together\n- Puts deep work in the morning\n- Puts meetings and emails in the afternoon\n- Includes 30-min buffer between major blocks\n- Flags the #1 priority for each day\n- Leaves Friday afternoon for review and next-week planning`,
+cn:"帮我规划一周。列出任务和目标后，创建周一到周五的日计划：相似任务分组、深度工作放早上、会议邮件放下午、每天标注第1优先级。"},
+
+{cat:"productivity",title:"Decision Matrix",tags:["chatgpt","claude"],
+prompt:`Help me make a decision between these options:\n\n[LIST YOUR OPTIONS]\n\nContext: [DESCRIBE THE SITUATION]\nMy priorities: [WHAT MATTERS MOST TO YOU]\n\nCreate a weighted decision matrix:\n1. Identify 5-7 criteria based on my priorities\n2. Weight each criterion (must total 100%)\n3. Score each option 1-10 on each criterion\n4. Calculate weighted scores\n5. Give your recommendation with reasoning\n6. Play devil's advocate — argue for the non-obvious choice`,
+cn:"帮我在这些选项之间做决定。创建加权决策矩阵：5-7个标准、权重（总计100%）、评分1-10、计算加权分、给出建议并为非显而易见的选择辩护。"},
+
+// ── DATA ──
+{cat:"data",title:"Data Analysis Prompt",tags:["chatgpt","claude"],
+prompt:`Analyze this dataset:\n\n[PASTE DATA OR DESCRIBE THE DATASET]\n\nPerform:\n1. Summary statistics (mean, median, std dev, range)\n2. Identify top 3 patterns or trends\n3. Find anomalies or outliers\n4. Suggest 3 visualizations that would tell the story\n5. List 3 hypotheses worth testing\n6. Write a 3-sentence executive summary of findings`,
+cn:"分析数据集：汇总统计、识别3个模式/趋势、发现异常值、建议3个可视化、列出3个值得测试的假设、3句执行摘要。"},
+
+{cat:"data",title:"Excel Formula Helper",tags:["chatgpt","claude"],
+prompt:`I need an Excel/Google Sheets formula that:\n\n[DESCRIBE WHAT YOU WANT IN PLAIN ENGLISH]\n\nMy data is in:\n- [Describe columns and sample data]\n\nPlease provide:\n1. The formula\n2. Step-by-step explanation of how it works\n3. Example with sample data\n4. Common pitfalls to avoid`,
+cn:"我需要一个Excel/Google Sheets公式：[用通俗语言描述]。提供公式、逐步解释、示例和常见陷阱。"},
+
+// ── CREATIVE ──
+{cat:"creative",title:"Story Premise Generator",tags:["chatgpt","claude"],
+prompt:`Generate 5 unique story premises that combine:\n- Genre: [GENRE]\n- Setting: [TIME/PLACE]\n- Theme: [THEME]\n\nFor each premise, provide:\n1. Logline (1 sentence, under 30 words)\n2. The hook (what makes this different?)\n3. Main character (name, flaw, want vs need)\n4. Central conflict\n5. The twist or revelation`,
+cn:"生成5个独特故事前提。每个提供：一句话概要、钩子、主角（缺陷、想要vs需要）、核心冲突、转折。"},
+
+{cat:"creative",title:"Music Prompt for Suno",tags:["chatgpt"],
+prompt:`Write a Suno AI music prompt for a [GENRE] song about [TOPIC].\n\nProvide:\n1. Style tags: [genre, mood, tempo, instruments]\n2. Song structure: verse 1, chorus, verse 2, chorus, bridge, final chorus\n3. Full lyrics that:\n   - Rhyme naturally (not forced)\n   - Tell a story or paint a scene\n   - Have a memorable, singable chorus\n   - Use vivid imagery, not clichés\n4. Suggested title`,
+cn:"为Suno AI写一个[流派]音乐提示词。提供：风格标签、歌曲结构、完整歌词（自然押韵、讲故事、朗朗上口的副歌）、建议标题。"},
+
+// ── AI SPECIFIC ──
+{cat:"ai",title:"System Prompt Template",tags:["chatgpt","claude"],
+prompt:`You are [ROLE/PERSONA]. Your expertise is in [DOMAIN].\n\nBehavior rules:\n- Always [DO THIS]\n- Never [DO THAT]\n- When uncertain, [FALLBACK BEHAVIOR]\n\nOutput format:\n- Use [FORMAT: markdown/json/bullet points]\n- Keep responses [LENGTH: concise/detailed]\n- Include [MUST-INCLUDE ELEMENTS]\n\nContext: You are helping [USER TYPE] with [TASK TYPE].\n\nFirst message: Greet the user and ask for [INITIAL INFORMATION NEEDED].`,
+cn:"系统提示模板：定义角色、领域、行为规则（总是/从不/不确定时）、输出格式、上下文、首条消息。"},
+
+{cat:"ai",title:"Prompt Improver",tags:["chatgpt","claude"],
+prompt:`I wrote this prompt but the results aren't great:\n\n[PASTE YOUR PROMPT]\n\nImprove it by:\n1. Making vague instructions specific\n2. Adding output format constraints\n3. Including 1-2 examples of desired output\n4. Adding edge case handling\n5. Removing redundant or contradictory instructions\n\nReturn the improved prompt and explain each change you made.`,
+cn:"改进提示词：使模糊指令具体化、添加输出格式约束、包含期望输出示例、添加边缘情况处理、移除冗余指令。"},
+
+{cat:"ai",title:"Chain of Thought Activator",tags:["chatgpt","claude"],
+prompt:`[YOUR QUESTION OR TASK]\n\nBefore answering, think step by step:\n1. What are the key components of this problem?\n2. What assumptions am I making?\n3. What are the possible approaches?\n4. Which approach is best and why?\n5. Now execute that approach.\n6. Verify: does my answer actually address the original question?`,
+cn:"[你的问题]。回答前逐步思考：问题关键组成部分、假设、可能方法、最佳方法及原因、执行、验证。"},
+];
+
+// ═══ CATEGORIES ═══
+const CATS = {
+  all:         {icon:'&#9889;', label:'All Prompts 全部', color:'var(--accent)'},
+  writing:     {icon:'&#9997;', label:'Writing 写作', color:'var(--rose)'},
+  coding:      {icon:'&#128187;', label:'Coding 编程', color:'var(--blue)'},
+  image:       {icon:'&#127912;', label:'Image 图像', color:'var(--purple)'},
+  business:    {icon:'&#128188;', label:'Business 商业', color:'var(--green)'},
+  learning:    {icon:'&#128218;', label:'Learning 学习', color:'var(--amber)'},
+  productivity:{icon:'&#9889;', label:'Productivity 效率', color:'var(--teal)'},
+  data:        {icon:'&#128202;', label:'Data 数据', color:'var(--blue)'},
+  creative:    {icon:'&#127912;', label:'Creative 创意', color:'var(--purple)'},
+  ai:          {icon:'&#129302;', label:'AI & Prompts', color:'var(--accent)'},
+};
+
+let activeCat = 'all';
+let searchQuery = '';
+
+// ═══ RENDER ═══
+function getFiltered() {
+  return PROMPTS.filter(p => {
+    const catMatch = activeCat === 'all' || p.cat === activeCat;
+    const q = searchQuery.toLowerCase();
+    const searchMatch = !q || p.title.toLowerCase().includes(q) || p.prompt.toLowerCase().includes(q) || (p.cn && p.cn.toLowerCase().includes(q));
+    return catMatch && searchMatch;
+  });
+}
+
+function renderSidebar() {
+  const counts = {all: PROMPTS.length};
+  PROMPTS.forEach(p => { counts[p.cat] = (counts[p.cat]||0) + 1; });
+
+  const sb = document.getElementById('sidebar');
+  const pills = document.getElementById('catPills');
+  sb.innerHTML = '<div class="sb-title">Categories 分类</div>';
+  pills.innerHTML = '';
+
+  Object.entries(CATS).forEach(([key, cat]) => {
+    sb.innerHTML += `<div class="sb-cat ${activeCat===key?'active':''}" onclick="setCat('${key}')">
+      <span class="sb-icon">${cat.icon}</span>${cat.label}<span class="sb-count">${counts[key]||0}</span></div>`;
+    pills.innerHTML += `<div class="cat-pill ${activeCat===key?'active':''}" onclick="setCat('${key}')">${cat.label}</div>`;
+  });
+}
+
+function renderPrompts() {
+  const list = document.getElementById('promptList');
+  const filtered = getFiltered();
+  document.getElementById('resultCount').textContent = `${filtered.length} prompts`;
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty"><div class="icon">&#128269;</div><p>No prompts found. Try a different search.</p></div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map((p, i) => {
+    const tagHtml = p.tags.map(t => `<span class="prompt-tag tag-${t}">${t}</span>`).join('');
+    const formatted = p.prompt.replace(/\[([^\]]+)\]/g, '<span class="var">[$1]</span>');
+    return `<div class="prompt-card">
+      <div class="prompt-header">
+        <div class="prompt-title">${p.title}</div>
+        <div class="prompt-tags">${tagHtml}</div>
+      </div>
+      <div class="prompt-body">${formatted}</div>
+      ${p.cn ? `<div class="prompt-cn">${p.cn}</div>` : ''}
+      <div class="prompt-footer">
+        <div class="prompt-cat">${CATS[p.cat]?.label || p.cat}</div>
+        <button class="copy-btn" onclick="copyPrompt(this, ${i})">Copy 复制</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setCat(cat) { activeCat = cat; renderSidebar(); renderPrompts(); }
+window.setCat = setCat;
+
+function copyPrompt(btn, idx) {
+  const filtered = getFiltered();
+  navigator.clipboard.writeText(filtered[idx].prompt.replace(/\\n/g, '\n')).then(() => {
+    btn.textContent = 'Copied! ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy 复制'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+window.copyPrompt = copyPrompt;
+
+// Search
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  searchQuery = e.target.value;
+  renderPrompts();
+});
+
+// Init
+renderSidebar();
+renderPrompts();
+</script>
+</body>
+</html>
